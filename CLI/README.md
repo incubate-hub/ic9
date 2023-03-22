@@ -38,10 +38,6 @@ bash run.sh
 
 This tool is only for educational purposes. If you use this tool for other purposes then my team is not responsible for that.
 
-# THANKS TO :
-
-Disha AND
-Sainath
 :)
 
 
