@@ -1,6 +1,6 @@
-# stranarmy
+# RadiumX
 
-stranarmy —— A powerful and useful tool for checking darkweb sites
+RadiumX —— A powerful and useful tool for checking darkweb sites
 
 # All Commands :
 
