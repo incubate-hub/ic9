@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anamoly</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/e7ec6a90f0.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="public/index.css"> 
+</head>
+<body>
+    <div class="main-container col-12 bg-light">
+        <h1 class="Description">Anomaly Detection in Source Code</h1>
+        <div class="table-container mt-4">
+          <div class="input-group mb-3">
+            <input id="inputElement" type="text" class="form-control" placeholder="Enter Website URL" aria-label="Website User Name" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+              <a onclick="PressedButtonElement()"><button class="btn btn-primary" type="button" id="URLSubmitBTN">Submit</button></a>
+            </div>
+          </div>          
+          <table >
+            <thead>
+              <tr>
+                <th>Property</th>
+                <th>Values</th>
+              <tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th class="cell-highlight_green">Harmless</th>
+                <td class="cell-highlight_green" id="harmless">71</td>
+              </tr>
+              <tr >
+                <th class="cell-highlight_red">Malicious</th>
+                <td class="cell-highlight_red" id="malicious">5</td>
+              </tr>
+              <tr>
+                <th class="cell-highlight_yellow">Suspicious</th>
+                <td class="cell-highlight_yellow" id="suspicious">9</td>
+              </tr>
+              <tr>
+                <th class="bg-secondary">Undetected</th>
+                <td class="bg-secondary" id="undetected">15</td>
+              </tr>
+              <tr>
+                <th class="bg-primary">TimeOut</th>
+                <td class="bg-primary" id="timeout">0</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    </div>
+    <script>
+      
+      var urlvalue="";
+      let inputEle=document.getElementById("inputElement");
+      inputEle.value=localStorage.getItem("URLENTEREDBYUSER");
+      inputEle.addEventListener('keyup',(Event)=>{
+          urlvalue=inputEle.value;
+          localStorage.setItem("URLENTEREDBYUSER", urlvalue);
+          URLVALUEENTEREDBYUSER=urlvalue;
+          // console.log(inputEle.value);
+      });
+
+      function PressedButtonElement() {
+        let url = `http://localhost:3001/url?url=${document.getElementById('inputElement').value}`;
+        fetch(url, {
+          method : 'get',
+          headers: {
+              'Content-type': 'application/json; charset=UTF-8'
+            }
+        })
+        .then(res => res.text())
+        .then(res => JSON.parse(res))
+        .then(res => {
+            console.log(res);
+
+            document.getElementById("harmless").innerHTML = res['harmless'];
+            document.getElementById("malicious").innerHTML = res['malicious'];
+            document.getElementById("suspicious").innerHTML = res['suspicious'];
+            document.getElementById("undetected").innerHTML = res['undetected'];
+            document.getElementById("timeout").innerHTML = (res['timeout'] == "") ? 0 : res["timeout"];
+        })
+      }
+    </script>
+</body>
+</html>
